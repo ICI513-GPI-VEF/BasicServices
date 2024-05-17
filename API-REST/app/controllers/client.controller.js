@@ -1,0 +1,165 @@
+// Import dependencies
+//const db = require("../models");
+import db from "../models/index.js"
+const Client = db.client;
+const Op = db.Sequelize.Op;
+
+// Create a client
+const create = (req, res) => 
+{
+    // Validate query
+    if (!req.body.id_user) {
+        res.status(400).send({ message: "Content can not be empty!" });
+        return;
+    }
+    // Create a client
+    const client = {
+        id_user: req.body.id_user
+    };
+    // Store in database
+    Client.create(client) // Okay? then return the data
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {     // error 500: 
+        res.status(500).send({ message: err.message || "Error creating a client"});
+    });
+};
+
+// Return the clients from the database
+const findAll = (req, res) => 
+{
+    const {first, last}  = req.query; //...../all?last=asd
+    var condition = (first || last)? { [Op.or]: [{ name: {[Op.like]: `%${first}%`} }, { last_name: {[Op.like]: `%${last}%`} }] } : null;
+
+    Client.findAll({
+        attributes: { exclude: ["id_client", "id_user"] },
+        include: [{
+            model: db.user,
+            as: 'clientUser',
+            attributes: { exclude: ["password", "id_user"] },
+            where: condition
+        }]
+    })
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).send({ message: err.message || "Search error"});
+    });
+};
+
+// Search client by fk
+const findOne = (req, res) =>
+{
+    const id_user = req.params.id_user;
+    var condition = { id_user: {[Op.eq]: id_user} };
+
+    Client.findOne({
+        attributes: { exclude: ["createdAt", "updatedAt", "id_user"]},
+        where: condition
+    })
+    .then(data => {
+        if (data) res.send(data); // Does the data exist? deliver the data
+        else      res.status(404).send({ message: `Client not found`});
+    })
+    .catch(err => {
+        res.status(500).send({ message: "Search error"});
+    });
+};
+
+//const filter = (req) =>
+//{
+//    const {rut, dt_buy, name_pro} = req.query;
+//    if (rut && dt_buy && name_pro)
+//        return { [Op.and]: [{ rut: {[Op.like]: `%${rut}%`}}, { '$clientBuys.date_buy$': {[Op.like]: dt_buy}}, {'$clientBuys.purchasedProducts.product.name_product$': {[Op.like]:`%${name_pro}%`}}] };
+//    else if (rut && dt_buy) 
+//        return { [Op.and]: [{ rut: {[Op.like]: `%${rut}%`}}, { '$clientBuys.date_buy$': {[Op.like]: dt_buy}}] };
+//    else if (rut && name_pro)
+//        return { [Op.and]: [{ rut: {[Op.like]: `%${rut}%`}}, {'$clientBuys.purchasedProducts.product.name_product$': {[Op.like]:`%${name_pro}%`}}] };
+//    else if (dt_buy && name_pro)
+//        return { [Op.and]: [{ '$clientBuys.date_buy$': {[Op.like]: dt_buy}}, {'$clientBuys.purchasedProducts.product.name_product$': {[Op.like]:`%${name_pro}%`}}] };
+//    else 
+//        return  (rut || dt_buy || name_pro)? {[Op.or]: [{ rut: {[Op.like]: `%${rut}%`}}, { '$clientBuys.date_buy$': {[Op.like]: dt_buy}}, {'$clientBuys.purchasedProducts.product.name_product$': {[Op.like]:`%${name_pro}%`}}]} : null;
+//}
+//
+//exports.findAllBuys = (req, res) =>
+//{
+//    const condition = filter(req);
+//
+//    Client.findAll({
+//        attributes: ['id_client', 'rut'],
+//        where: condition,
+//        include: [{
+//            model: db.buy,
+//            as: 'clientBuys',
+//            attributes: ['total_products', 'total_price', 'date_buy'],
+//            include: [{
+//                model: db.purchasedProduct,
+//                as: 'purchasedProducts',
+//                attributes: ['units'],
+//                include: [{
+//                    model: db.product,
+//                    as: 'product',
+//                    attributes: ['name_product', 'price'],
+//                    //required: false  // si esque el producto referenciado no existe, se muestre nulo 
+//            }]
+//        }]
+//        }]
+//    })
+//    .then(data => {
+//        res.send(data);
+//    })
+//    .catch(err => {
+//        console.log(err);
+//        res.status(500).send({ message: err.message || "Error en la búsqueda"});
+//    });
+//}
+//
+//
+//// actualizar un cliente por su id
+//exports.update = (req, res) => 
+//{
+//    const id = req.params.id_client;
+//
+//    Client.update(req.body, { where: { id_client: id }})
+//    .then(num => {
+//        if (num == 1) res.send({ message: "Cliente actualizado."});
+//        else          res.send({ message: `No se pudo actualizar al cliente`});
+//        
+//    })
+//    .catch(err => {
+//        res.status(500).send({ message: "Error en actualización"});
+//    });   
+//};
+//
+//// eliminar un cliente
+//exports.delete = (req, res) => 
+//{
+//    const id = req.params.id_client;
+//
+//    Client.destroy({where: { id_client: id }})
+//    .then(num => {
+//        if (num == 1) res.send({ message: "Cliente eliminado" });
+//        else          res.send({ message: `Cliente no encontrado`});
+//    })
+//    .catch(err => {
+//        res.status(500).send({ message: "Error al eliminar cliente"});
+//    });
+//};
+//
+//// eliminar a todos los clientes
+//exports.deleteAll = (req, res) => 
+//{
+//    Client.destroy({ where: {}, truncate: false })
+//    .then(nums => {
+//        res.send({ message: `${nums} clientes eliminados!` });
+//    })
+//    .catch(err => {
+//        res.status(500).send({ message: err.message || "Error al eliminar a todos los clientes." });
+//    });
+//};
+//
+
+export { create, findAll, findOne };
