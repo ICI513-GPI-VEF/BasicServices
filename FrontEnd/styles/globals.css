@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+body {
+	line-height: 1;
+  -webkit-text-size-adjust: none;
+}
+
+/* Basic */
+
+@-ms-viewport {
+  width: device-width;
+}
+
+body {
+  -ms-overflow-style: scrollbar;
+}
+
+@media screen and (max-width: 480px) {
+
+  html, body {
+    min-width: 320px;
+  }
+
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/* body {
+  background-color: #935d8c;
+  background-image: url("/utils/overlay.png"), -moz-linear-gradient(45deg, #e37682 15%, #5f4d93 85%);
+  background-image: url("/utils/overlay.png"), -webkit-linear-gradient(45deg, #e37682 15%, #5f4d93 85%);
+  background-image: url("/utils/overlay.png"), -ms-linear-gradient(45deg, #e37682 15%, #5f4d93 85%);
+  background-image: url("/utils/overlay.png"), linear-gradient(45deg, #e37682 15%, #5f4d93 85%);
+} */
+
+body.is-preload *, body.is-preload *:before, body.is-preload *:after {
+  -moz-animation: none !important;
+  -webkit-animation: none !important;
+  -ms-animation: none !important;
+  animation: none !important;
+  -moz-transition: none !important;
+  -webkit-transition: none !important;
+  -ms-transition: none !important;
+  transition: none !important;
+}
+
+body{
+  font-family: "Source Sans Pro", Helvetica, sans-serif;
+  /* font-size: 17pt;
+  font-weight: 300;
+  line-height: 1.65;*/
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
