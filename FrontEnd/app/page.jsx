@@ -1,12 +1,12 @@
 /* Página Principal del sitio */
 "use client";
 
-//import Footer from "@/components/Footer";
+import Welcome from "@/components/Welcome";
 
 export default function Home() {
   return(
     <>
-      {/* <Footer/> */}
+      <Welcome/>
     </>
   )
 }
