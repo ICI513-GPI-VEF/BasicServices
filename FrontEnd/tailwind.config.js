@@ -18,6 +18,11 @@ module.exports = {
       margin: {
         '8vw': '8vw',
       },
+      colors:{
+        'c-gray': '#545454',
+        'c-green': '#1CBC74',
+        'c-brown-1': '#826B54',
+      }
     },
   },
   variants: {
