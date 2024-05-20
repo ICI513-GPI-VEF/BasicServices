@@ -10,7 +10,7 @@ export default function Home() {
     <>
       <Welcome/>
       <Roadmap/>
-      <Featured/>
+      <Featured/>     
     </>
   )
 }

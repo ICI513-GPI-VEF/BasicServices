@@ -15,8 +15,8 @@ export default function Roadmap(){
   return (
     <>
       <section className='container mx-auto pb-10 p-6 md:p-4'>
-        <div className='pt-8 pb-8'>
-          <h1 className='text-c-gray text-ms md:text-xl lg:text-2xl font-bold'>Pasos a seguir</h1>
+        <div className='pt-8 pb-8 flex justify-center'>
+          <h1 className='text-c-gray text-lg md:text-2xl lg:text-3xl uppercase font-bold'>¿No sabes c&oacute;mo seguir?</h1>
         </div>
         <div className="flex flex-wrap">
 
