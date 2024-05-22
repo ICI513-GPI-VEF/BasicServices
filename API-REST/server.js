@@ -20,7 +20,7 @@ app.use(morgan('dev'));
 
 // In production
 // Synchronize all models
-db.sequelize.sync({alter: true}) // (This checks what is the current state of the table in the database (which columns it has, what are their data types, etc), and then performs the necessary changes in the table to make it match the model.)
+await db.sequelize.sync({alter: true}) // (This checks what is the current state of the table in the database (which columns it has, what are their data types, etc), and then performs the necessary changes in the table to make it match the model.)
   .then(() => {
       console.log("Synced db.");
   })
@@ -37,15 +37,15 @@ import userRouter     from "./app/routes/user.routes.js";
 import clientRouter   from "./app/routes/client.routes.js";
 import providerRouter from "./app/routes/provider.routes.js";
 
-app.use('/user',     userRouter);
-app.use('/client',   clientRouter);
-app.use('/provider', providerRouter);
+app.use('/apiV1/user',     userRouter);
+app.use('/apiV1/client',   clientRouter);
+app.use('/apiV1/provider', providerRouter);
 //require("./app/routes/user.routes")(app);
 //require("./app/routes/client.routes")(app);
 //require("./app/routes/provider.routes")(app);
 
 // Main route
-app.get("/", (req, res) => {
+app.get("/apiV1/", (req, res) => {
   res.json({ message: "Welcome to search to basic services!" });
 });
 

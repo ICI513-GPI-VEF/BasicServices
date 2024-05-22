@@ -19,7 +19,7 @@ const create = (req, res) =>
     // Store in database
     Client.create(client) // Okay? then return the data
     .then(data => {
-        res.send(data);
+        res.status(200).send(data);
     })
     .catch(err => {     // error 500: 
         res.status(500).send({ message: err.message || "Error creating a client"});
@@ -42,7 +42,7 @@ const findAll = (req, res) =>
         }]
     })
     .then(data => {
-        res.send(data);
+        res.status(200).send(data);
     })
     .catch(err => {
         console.log(err);
@@ -61,7 +61,7 @@ const findOne = (req, res) =>
         where: condition
     })
     .then(data => {
-        if (data) res.send(data); // Does the data exist? deliver the data
+        if (data) res.status(200).send(data); // Does the data exist? deliver the data
         else      res.status(404).send({ message: `Client not found`});
     })
     .catch(err => {

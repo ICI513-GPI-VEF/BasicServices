@@ -25,7 +25,7 @@ const create = (req, res) =>
     // Store in database
     User.create(user) // Okay? then return the data
     .then(data => {
-        res.send(data);
+        res.status(200).send(data);
     })
     .catch(err => {     // Error 500: 
         res.status(500).send({ message: err.message || "Error creating a user"});
@@ -48,9 +48,10 @@ const filter = (req) =>
 const findAll = (req, res) => 
 {
     var condition = filter(req);
+
     User.findAll({ where: condition, attributes:{ exclude:['password']} }) // Find the tuples that match the code
     .then(data => {
-        res.send(data);
+        res.status(200).send(data);
     })
     .catch(err => {
         res.status(500).send({ message: err.message || "Search error"});
@@ -75,11 +76,11 @@ const findOne = (req, res) =>
         where: condition
     })
     .then(data => {
-        if (data) res.send(data); // Does the data exist? deliver the data
+        if (data) res.status(200).send(data); // Does the data exist? deliver the data
         else      res.status(404).send({ message: `User not found`});
     })
     .catch(err => {
-        res.status(500).send({ message: "Search error"});
+        res.status(500).send({ message: err.message || "Search error"});
     });
 };
 //
