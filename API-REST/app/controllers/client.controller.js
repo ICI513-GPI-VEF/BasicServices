@@ -9,7 +9,7 @@ const create = (req, res) =>
 {
     // Validate query
     if (!req.body.id_user) {
-        res.status(400).send({ message: "Content can not be empty!" });
+        res.status(400).send({ status: 400, message: "Each parameter of the body must not be empty!" });
         return;
     }
     // Create a client
@@ -19,10 +19,10 @@ const create = (req, res) =>
     // Store in database
     Client.create(client) // Okay? then return the data
     .then(data => {
-        res.status(200).send(data);
+        res.status(201).send({ status: 201, message: "Created client", data: data });
     })
     .catch(err => {     // error 500: 
-        res.status(500).send({ message: err.message || "Error creating a client"});
+        res.status(500).send({ status: 500, message: err.message || "Error creating a client" });
     });
 };
 
@@ -42,11 +42,11 @@ const findAll = (req, res) =>
         }]
     })
     .then(data => {
-        res.status(200).send(data);
+        if (data) res.status(200).send({ status: 200, message: "Clients found",        data: data });
+        else      res.status(200).send({ status: 200, message: "There are no clients", data: {}   });
     })
     .catch(err => {
-        console.log(err);
-        res.status(500).send({ message: err.message || "Search error"});
+        res.status(500).send({ status: 500, message: err.message || "Search clients error" });
     });
 };
 
@@ -61,11 +61,11 @@ const findOne = (req, res) =>
         where: condition
     })
     .then(data => {
-        if (data) res.status(200).send(data); // Does the data exist? deliver the data
-        else      res.status(404).send({ message: `Client not found`});
+        if (data) res.status(200).send({ status: 200, message: "Client found", data: data }); // Does the data exist? deliver the data
+        else      res.status(404).send({ status: 404, message: "Client not found" });
     })
     .catch(err => {
-        res.status(500).send({ message: "Search error"});
+        res.status(500).send({ status: 500, message: err.message || "Search client error" });
     });
 };
 

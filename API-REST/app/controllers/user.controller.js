@@ -9,7 +9,7 @@ const create = (req, res) =>
 {
     // Validate query
     if (!req.body.name && !req.body.last_name && !req.body.address && !req.body.contact && !req.body.alias && !req.body.password) {
-        res.status(400).send({ message: "Content can not be empty!" });
+        res.status(400).send({ status: 400, message: "Each parameter of the body must not be empty!" });
         return;
     }
     // Create a user
@@ -25,10 +25,10 @@ const create = (req, res) =>
     // Store in database
     User.create(user) // Okay? then return the data
     .then(data => {
-        res.status(200).send(data);
+        res.status(201).send({ status: 201, message: "Created user", data: data });
     })
     .catch(err => {     // Error 500: 
-        res.status(500).send({ message: err.message || "Error creating a user"});
+        res.status(500).send({ status: 500, message: err.message || "Error creating a user"});
     });
 };
 
@@ -51,10 +51,11 @@ const findAll = (req, res) =>
 
     User.findAll({ where: condition, attributes:{ exclude:['password']} }) // Find the tuples that match the code
     .then(data => {
-        res.status(200).send(data);
+        if (data) res.status(200).send({ status: 200, message: "Users found",        data: data });
+        else      res.status(200).send({ status: 200, message: "There are no users", data: {}   });
     })
     .catch(err => {
-        res.status(500).send({ message: err.message || "Search error"});
+        res.status(500).send({status: 500, message: err.message || "Search users error"});
     });
 }
 
@@ -63,9 +64,9 @@ const findOne = (req, res) =>
 {
     const { alias, password } = req.body;
 
-    // Verify params not empty
+    // Verify all body params not empty
     if (!alias || !password) {
-        res.status(400).send({ message: "All params query must be not empty!" });
+        res.status(400).send({ status: 400, message: "Each query param must be not empty!" });
         return;
     }
 
@@ -76,11 +77,11 @@ const findOne = (req, res) =>
         where: condition
     })
     .then(data => {
-        if (data) res.status(200).send(data); // Does the data exist? deliver the data
-        else      res.status(404).send({ message: `User not found`});
+        if (data) res.status(200).send({ status: 200, message: "User found", data: data }); // Does the data exist? deliver the data
+        else      res.status(404).send({ status: 404, message: "User not found" });
     })
     .catch(err => {
-        res.status(500).send({ message: err.message || "Search error"});
+        res.status(500).send({ status: 500, message: err.message || "Search user error"});
     });
 };
 //
