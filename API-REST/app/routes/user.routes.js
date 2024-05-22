@@ -21,7 +21,7 @@ const router = Router();
 
 router.post("/add", create);       // Create a user
 router.get("/all", findAll);       // Search users(with filter)
-router.get("/one", findOne);       // Search user by alias and password
+router.get("/one-by-auth", findOne);       // Search user by alias and password
 
 //router.put("/:rut", user.update);       // Update client
 //router.delete("/:rut", user.delete);    // Delete user by id

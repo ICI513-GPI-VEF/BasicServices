@@ -20,7 +20,7 @@ const router = Router();
 
 router.post("/add",         create);                 // Create client
 router.get("/all",          findAll);                // Search clients(with filter)
-router.get("/one/:id_user", findOne);                // Search client by fk
+router.get("/find-by-uid/:id_user", findOne);                // Search client by fk
 //router.put("/:id_client", client.update);               // Update client
 //router.delete("/:id_client", client.delete);            // Delete client by id
 //router.delete("/", client.deleteAll);                   // Drop clients
