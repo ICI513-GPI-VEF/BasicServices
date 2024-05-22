@@ -21,7 +21,7 @@ const create = (req, res) =>
     // Store in database
     Provider.create(provider) // Okay? then return the data
     .then(data => {
-        res.send(data);
+        res.status(200).send(data);
     })
     .catch(err => {     // error 500: 
         res.status(500).send({ message: err.message || "Error creating a provider"});
@@ -44,7 +44,7 @@ const findAll = (req, res) =>
         }]
     })
     .then(data => {
-        res.send(data);
+        res.status(200).send(data);
     })
     .catch(err => {
         console.log(err);
@@ -64,11 +64,11 @@ const findOne = (req, res) =>
         where: condition
     })
     .then(data => {
-        if (data) res.send(data); // Does the data exist? deliver the data
+        if (data) res.status(200).send(data); // Does the data exist? deliver the data
         else      res.status(404).send({ message: `Provider not found`});
     })
     .catch(err => {
-        res.status(500).send({ message: "Search error"});
+        res.status(500).send({ message: err.message || "Search error"});
     });
 };
 
