@@ -10,21 +10,22 @@ const create = (req, res) =>
 {
     // Validate query
     if (!req.body.id_user || !req.body.overview) {
-        res.status(400).send({ message: "Content can not be empty!" });
+        res.status(400).send({ status: 400, message: "Each parameter of the body must not be empty!" });
         return;
     }
     // Create a proveedor
     const provider = {
         overview: req.body.overview,
-        id_user: req.body.id_user
+        id_user:  req.body.id_user
     };
+
     // Store in database
     Provider.create(provider) // Okay? then return the data
     .then(data => {
-        res.status(200).send(data);
+        res.status(201).send({ status: 201, message: "Created provider", data: data });
     })
     .catch(err => {     // error 500: 
-        res.status(500).send({ message: err.message || "Error creating a provider"});
+        res.status(500).send({ status: 500, message: err.message || "Error creating a provider"});
     });
 };
 
@@ -44,11 +45,11 @@ const findAll = (req, res) =>
         }]
     })
     .then(data => {
-        res.status(200).send(data);
+        if (data) res.status(200).send({ status: 200, message: "Providers found",        data: data });
+        else      res.status(200).send({ status: 200, message: "There are no provider",  data: {}   });
     })
     .catch(err => {
-        console.log(err);
-        res.status(500).send({ message: err.message || "Search error"});
+        res.status(500).send({ status: 500, message: err.message || "Search providers error"});
     });
 };
 
@@ -64,11 +65,11 @@ const findOne = (req, res) =>
         where: condition
     })
     .then(data => {
-        if (data) res.status(200).send(data); // Does the data exist? deliver the data
-        else      res.status(404).send({ message: `Provider not found`});
+        if (data) res.status(200).send({ status: 200, message: "Provider found", data: data }); // Does the data exist? deliver the data
+        else      res.status(404).send({ status: 404, message: "Provider not found" });
     })
     .catch(err => {
-        res.status(500).send({ message: err.message || "Search error"});
+        res.status(500).send({ status: 500, message: err.message || "Search provider error"});
     });
 };
 
