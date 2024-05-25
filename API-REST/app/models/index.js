@@ -1,6 +1,7 @@
 import defineUser from "./user.model.js";
 import defineClient from "./client.model.js";
 import defineProvider from "./provider.model.js";
+import defineExperience from "./experience.model.js";
 
 const associateUser = () => 
 {
@@ -8,7 +9,8 @@ const associateUser = () =>
   db.user.hasOne(db.client, {
     foreignKey: {
       name: 'id_user',
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
@@ -19,7 +21,8 @@ const associateUser = () =>
   db.user.hasOne(db.provider, {
     foreignKey: {
       name: 'id_user',
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
@@ -28,11 +31,27 @@ const associateUser = () =>
   
 }
 
+const associateExperience = () => 
+{
+    // A provider has one or more experiences
+    db.provider.hasMany(db.experience, {
+      as : 'providerExperiences',
+      foreignKey: {
+        name: 'id_provider',
+        allowNull: false
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
+    db.experience.belongsTo(db.provider, { as: 'experienceProvider', foreignKey: 'id_provider' })
+}
+
 const defineAllModels = () => 
 {
-    db.user     = defineUser(sequelizeInstance, Sequelize);
-    db.client   = defineClient(sequelizeInstance, Sequelize);
-    db.provider = defineProvider(sequelizeInstance, Sequelize);
+    db.user       = defineUser(sequelizeInstance, Sequelize);
+    db.client     = defineClient(sequelizeInstance, Sequelize);
+    db.provider   = defineProvider(sequelizeInstance, Sequelize);
+    db.experience = defineExperience(sequelizeInstance, Sequelize);
     //db.user     = require("./user.model.js").define(sequelizeInstance, Sequelize);
     //db.client   = require("./client.model.js").define(sequelizeInstance, Sequelize);
     //db.provider = require("./provider.model.js").define(sequelizeInstance, Sequelize);
@@ -40,6 +59,7 @@ const defineAllModels = () =>
   
 const associateModels = () => {
     associateUser();
+    associateExperience();
 }
 
 //******************************************************************************/

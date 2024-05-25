@@ -2,8 +2,8 @@
 const defineProvider = (sequelize, Sequelize) => {
     const Provider = sequelize.define("providers", 
     {   
-        overview:    { type: Sequelize.STRING(500), allowNull: false, validate: {len: [15,500]}        },
-        id_provider: { type: Sequelize.INTEGER, allowNull: false, primaryKey:true, autoIncrement: true }
+        overview:    { type: Sequelize.STRING(300), allowNull: false, validate: {len: [15,300]}        },
+        id_provider: { type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true, unique: true }
     },
     {
         hooks : {
