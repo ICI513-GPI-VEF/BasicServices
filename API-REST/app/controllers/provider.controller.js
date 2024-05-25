@@ -36,7 +36,7 @@ const findAll = (req, res) =>
     var condition = (first || last)? { [Op.or]: [{ name: {[Op.like]: `%${first}%`} }, { last_name: {[Op.like]: `%${last}%`} }] } : null;
 
     Provider.findAll({
-        attributes: { exclude: ["id_provider", "id_user"] },
+        attributes: { exclude: ["id_user", "createdAt", "updatedAt"] },
         include: [{
             model: db.user,
             as: 'providerUser',
@@ -45,8 +45,8 @@ const findAll = (req, res) =>
         }]
     })
     .then(data => {
-        if (data) res.status(200).send({ status: 200, message: "Providers found",        data: data });
-        else      res.status(200).send({ status: 200, message: "There are no provider",  data: {}   });
+        if (data.length) res.status(200).send({ status: 200, message: "Providers found",         data: data });
+        else             res.status(200).send({ status: 200, message: "There are no providers",  data: []   });
     })
     .catch(err => {
         res.status(500).send({ status: 500, message: err.message || "Search providers error"});
@@ -62,7 +62,12 @@ const findOne = (req, res) =>
 
     Provider.findOne({
         attributes: { exclude: ["createdAt", "updatedAt", "id_user"]},
-        where: condition
+        where: condition,
+        include: [{
+            model: db.experience,
+            as: 'providerExperiences',
+            attributes: { exclude: ["id_provider", "id_experience", "createdAt", "updatedAt"] }
+        }]
     })
     .then(data => {
         if (data) res.status(200).send({ status: 200, message: "Provider found", data: data }); // Does the data exist? deliver the data

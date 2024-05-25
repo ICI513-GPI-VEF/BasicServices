@@ -33,13 +33,15 @@ await db.sequelize.sync({alter: true}) // (This checks what is the current state
 // });
 
 // Add routes to the server
-import userRouter     from "./app/routes/user.routes.js";
-import clientRouter   from "./app/routes/client.routes.js";
-import providerRouter from "./app/routes/provider.routes.js";
+import userRouter       from "./app/routes/user.routes.js";
+import clientRouter     from "./app/routes/client.routes.js";
+import providerRouter   from "./app/routes/provider.routes.js";
+import experienceRouter from "./app/routes/experience.routes.js";
 
-app.use('/apiV1/user',     userRouter);
-app.use('/apiV1/client',   clientRouter);
-app.use('/apiV1/provider', providerRouter);
+app.use('/apiV1/user',       userRouter);
+app.use('/apiV1/client',     clientRouter);
+app.use('/apiV1/provider',   providerRouter);
+app.use('/apiV1/experience', experienceRouter);
 //require("./app/routes/user.routes")(app);
 //require("./app/routes/client.routes")(app);
 //require("./app/routes/provider.routes")(app);

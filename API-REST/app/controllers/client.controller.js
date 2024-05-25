@@ -33,7 +33,7 @@ const findAll = (req, res) =>
     var condition = (first || last)? { [Op.or]: [{ name: {[Op.like]: `%${first}%`} }, { last_name: {[Op.like]: `%${last}%`} }] } : null;
 
     Client.findAll({
-        attributes: { exclude: ["id_client", "id_user"] },
+        attributes: { exclude: ["id_user", "createdAt", "updatedAt"] },
         include: [{
             model: db.user,
             as: 'clientUser',
@@ -42,8 +42,8 @@ const findAll = (req, res) =>
         }]
     })
     .then(data => {
-        if (data) res.status(200).send({ status: 200, message: "Clients found",        data: data });
-        else      res.status(200).send({ status: 200, message: "There are no clients", data: {}   });
+        if (data.length) res.status(200).send({ status: 200, message: "Clients found",        data: data });
+        else             res.status(200).send({ status: 200, message: "There are no clients", data: []   });
     })
     .catch(err => {
         res.status(500).send({ status: 500, message: err.message || "Search clients error" });

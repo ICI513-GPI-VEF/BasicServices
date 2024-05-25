@@ -51,8 +51,8 @@ const findAll = (req, res) =>
 
     User.findAll({ where: condition, attributes:{ exclude:['password']} }) // Find the tuples that match the code
     .then(data => {
-        if (data) res.status(200).send({ status: 200, message: "Users found",        data: data });
-        else      res.status(200).send({ status: 200, message: "There are no users", data: {}   });
+        if (data.length) res.status(200).send({ status: 200, message: "Users found",        data: data });
+        else             res.status(200).send({ status: 200, message: "There are no users", data: []   });
     })
     .catch(err => {
         res.status(500).send({status: 500, message: err.message || "Search users error"});
