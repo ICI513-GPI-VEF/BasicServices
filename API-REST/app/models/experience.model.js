@@ -6,7 +6,7 @@ const defineExperience = (sequelize, Sequelize) => {
         description:    { type: Sequelize.STRING(300), allowNull: false,  validate: { len: [15, 300] } },
         horary:         { type: Sequelize.STRING(60),  allowNull: false,  validate: { len: [5,  60]  } }, // <- other table!
         qualification:  { type: Sequelize.INTEGER.UNSIGNED, allowNull: true,  defaultValue: 0, validate: { min: 0, max: 10 } },
-        id_experience:  { type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true, unique: true }
+        id_experience:  { type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true }
     });
     return Experience;
 }
