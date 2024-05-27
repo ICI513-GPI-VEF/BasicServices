@@ -3,7 +3,7 @@ const defineClient = (sequelize, Sequelize) =>
 {
     const Client = sequelize.define("clients",
     {
-        id_client:  { type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true, unique: true }
+        id_client:  { type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true }
     },
     {
         hooks : {
