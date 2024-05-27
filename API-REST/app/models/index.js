@@ -1,7 +1,8 @@
-import defineUser from "./user.model.js";
-import defineClient from "./client.model.js";
-import defineProvider from "./provider.model.js";
+import defineUser       from "./user.model.js";
+import defineClient     from "./client.model.js";
+import defineProvider   from "./provider.model.js";
 import defineExperience from "./experience.model.js";
+import defineOpinion    from "./opinion.model.js";
 
 const associateUser = () => 
 {
@@ -46,12 +47,40 @@ const associateExperience = () =>
     db.experience.belongsTo(db.provider, { as: 'experienceProvider', foreignKey: 'id_provider' })
 }
 
+const associateOpinion = () =>
+{
+     // A client can make opinions
+    db.client.hasMany(db.opinion, {
+      as : 'clientOpinions',
+      foreignKey: {
+        name: 'id_client',
+        allowNull: false
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
+    db.opinion.belongsTo(db.client, { as: 'opinionClient', foreignKey: 'id_client' })
+
+     // A labor can have opinions
+    db.experience.hasMany(db.opinion, {
+      as : 'experienceOpinions',
+      foreignKey: {
+        name: 'id_experience',
+        allowNull: false
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
+    db.opinion.belongsTo(db.experience, { as: 'opinionExperience', foreignKey: 'id_experience' })
+}
+
 const defineAllModels = () => 
 {
     db.user       = defineUser(sequelizeInstance, Sequelize);
     db.client     = defineClient(sequelizeInstance, Sequelize);
     db.provider   = defineProvider(sequelizeInstance, Sequelize);
     db.experience = defineExperience(sequelizeInstance, Sequelize);
+    db.opinion    = defineOpinion(sequelizeInstance, Sequelize);
     //db.user     = require("./user.model.js").define(sequelizeInstance, Sequelize);
     //db.client   = require("./client.model.js").define(sequelizeInstance, Sequelize);
     //db.provider = require("./provider.model.js").define(sequelizeInstance, Sequelize);
@@ -60,6 +89,7 @@ const defineAllModels = () =>
 const associateModels = () => {
     associateUser();
     associateExperience();
+    associateOpinion();
 }
 
 //******************************************************************************/
@@ -77,10 +107,10 @@ const sequelizeInstance = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PAS
     dialect: dbConfig.dialect,
     operatorsAliases: false,
     pool: {
-      max: dbConfig.pool.max,
-      min: dbConfig.pool.min,
-      acquire: dbConfig.pool.acquire,
-      idle: dbConfig.pool.idle
+      max:      dbConfig.pool.max,
+      min:      dbConfig.pool.min,
+      acquire:  dbConfig.pool.acquire,
+      idle:     dbConfig.pool.idle
     }
 });
 
