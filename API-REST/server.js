@@ -37,11 +37,13 @@ import userRouter       from "./app/routes/user.routes.js";
 import clientRouter     from "./app/routes/client.routes.js";
 import providerRouter   from "./app/routes/provider.routes.js";
 import experienceRouter from "./app/routes/experience.routes.js";
+import opinionRouter    from "./app/routes/opinion.routes.js";
 
 app.use('/apiV1/user',       userRouter);
 app.use('/apiV1/client',     clientRouter);
 app.use('/apiV1/provider',   providerRouter);
 app.use('/apiV1/experience', experienceRouter);
+app.use('/apiV1/opinion',    opinionRouter)
 //require("./app/routes/user.routes")(app);
 //require("./app/routes/client.routes")(app);
 //require("./app/routes/provider.routes")(app);

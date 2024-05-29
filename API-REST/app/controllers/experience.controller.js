@@ -66,7 +66,7 @@ const findAllByProvider = (req, res) =>
     var condition = { id_provider: {[Op.eq]: id_provider} };
 
     Experience.findAll({
-        attributes: { exclude: ["createdAt", "updatedAt", "id_provider", "id_experience"]},
+        attributes: { exclude: ["createdAt", "updatedAt", "id_provider"]}, // "id_experience"]},
         where: condition
     })
     .then(data => {
