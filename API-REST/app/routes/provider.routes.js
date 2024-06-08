@@ -20,7 +20,7 @@ const router = Router();
 
 router.post("/add",          create);             // Create a provider
 router.get("/all",          findAll);             // Search providers(with filter)
-router.get("/find-by-uid/:id_user", findOne);             // Search provider by fk
+router.get("/find-by-cid/:id_client", findOne);             // Search provider by fk
 //router.put("/:id_prov", provider.update);       // Update provider
 //router.delete("/:id_prov", provider.delete);    // Delete provider by id
 //router.delete("/", provider.deleteAll);           // Drop providers

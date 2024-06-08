@@ -1,36 +1,23 @@
-import defineUser       from "./user.model.js";
 import defineClient     from "./client.model.js";
 import defineProvider   from "./provider.model.js";
 import defineExperience from "./experience.model.js";
 import defineOpinion    from "./opinion.model.js";
 
-const associateUser = () => 
+const associateClient = () => 
 {
-  // A user can be a client
-  db.user.hasOne(db.client, {
+  // A client can be a provider
+  db.client.hasOne(db.provider, {
     foreignKey: {
-      name: 'id_user',
+      name: 'id_client',
       allowNull: false,
       unique: true
     },
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   });
-  db.client.belongsTo(db.user, { as: 'clientUser', foreignKey: 'id_user' });
-
-  // Or a user can be a provider
-  db.user.hasOne(db.provider, {
-    foreignKey: {
-      name: 'id_user',
-      allowNull: false,
-      unique: true
-    },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-  });
-  db.provider.belongsTo(db.user, { as: 'providerUser', foreignKey: 'id_user' });
+  db.provider.belongsTo(db.client, { as: 'providerClient', foreignKey: 'id_client' });
   
-}
+};
 
 const associateExperience = () => 
 {
@@ -45,7 +32,7 @@ const associateExperience = () =>
       onUpdate: 'CASCADE'
     });
     db.experience.belongsTo(db.provider, { as: 'experienceProvider', foreignKey: 'id_provider' })
-}
+};
 
 const associateOpinion = () =>
 {
@@ -72,11 +59,10 @@ const associateOpinion = () =>
       onUpdate: 'CASCADE'
     });
     db.opinion.belongsTo(db.experience, { as: 'opinionExperience', foreignKey: 'id_experience' })
-}
+};
 
 const defineAllModels = () => 
 {
-    db.user       = defineUser(sequelizeInstance, Sequelize);
     db.client     = defineClient(sequelizeInstance, Sequelize);
     db.provider   = defineProvider(sequelizeInstance, Sequelize);
     db.experience = defineExperience(sequelizeInstance, Sequelize);
@@ -84,13 +70,13 @@ const defineAllModels = () =>
     //db.user     = require("./user.model.js").define(sequelizeInstance, Sequelize);
     //db.client   = require("./client.model.js").define(sequelizeInstance, Sequelize);
     //db.provider = require("./provider.model.js").define(sequelizeInstance, Sequelize);
-}
+};
   
 const associateModels = () => {
-    associateUser();
+    associateClient();
     associateExperience();
     associateOpinion();
-}
+};
 
 //******************************************************************************/
 
