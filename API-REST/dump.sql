@@ -71,7 +71,11 @@ CREATE TABLE `experiences` (
 
 LOCK TABLES `experiences` WRITE;
 /*!40000 ALTER TABLE `experiences` DISABLE KEYS */;
-INSERT INTO `experiences` VALUES ('gasfiter','Mantención y limpieza de tuberías','Lunes y jueves 10:00 pm - 19:00',0,1,'2024-05-25 04:45:09','2024-05-25 04:45:09',1),('gasfiter','Arreglos fugas de gas, fugas de agua, limpieza de calefont, mantenciones.','Todos los dias excepto fines de semana, 14:00 pm - 20:00',0,2,'2024-05-25 04:57:12','2024-05-25 04:57:12',2),('Albañil','Reparación de cimientos, levantamiento de muros, techos, losas, dalas.','Martes a viernes, 8:00 am - 18:00 pm',0,3,'2024-05-25 05:24:31','2024-05-25 05:24:31',3),('Gasfiter','Instalación y reparación de accesorios del sistema de agua o desagüe','Jueves y Domingos, 8:00 am - 20:00 pm',0,4,'2024-05-25 05:37:34','2024-05-25 05:37:34',3);
+INSERT INTO `experiences` VALUES 
+('gasfiter','Mantención y limpieza de tuberías','Lunes y jueves 10:00 pm - 19:00',0,1,'2024-05-25 04:45:09','2024-05-25 04:45:09',1),
+('gasfiter','Arreglos fugas de gas, fugas de agua, limpieza de calefont, mantenciones.','Todos los dias excepto fines de semana, 14:00 pm - 20:00',0,2,'2024-05-25 04:57:12','2024-05-25 04:57:12',2),
+('Albañil','Reparación de cimientos, levantamiento de muros, techos, losas, dalas.','Martes a viernes, 8:00 am - 18:00 pm',0,3,'2024-05-25 05:24:31','2024-05-25 05:24:31',3),
+('Gasfiter','Instalación y reparación de accesorios del sistema de agua o desagüe','Jueves y Domingos, 8:00 am - 20:00 pm',0,4,'2024-05-25 05:37:34','2024-05-25 05:37:34',3);
 /*!40000 ALTER TABLE `experiences` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,7 +104,10 @@ CREATE TABLE `providers` (
 
 LOCK TABLES `providers` WRITE;
 /*!40000 ALTER TABLE `providers` DISABLE KEYS */;
-INSERT INTO `providers` VALUES ('Me dedico a la mantención y limpieza de tuberías',1,'2024-05-06 02:34:47','2024-05-06 02:34:47',2),('Me dedico a la gafitería',2,'2024-05-13 04:13:17','2024-05-13 04:13:17',3),('Me dedico a la reparación y restauración de inmuebles',3,'2024-05-22 20:06:16','2024-05-22 20:06:16',6);
+INSERT INTO `providers` VALUES 
+('Me dedico a la mantención y limpieza de tuberías',1,'2024-05-06 02:34:47','2024-05-06 02:34:47',2),
+('Me dedico a la gafitería',2,'2024-05-13 04:13:17','2024-05-13 04:13:17',3),
+('Me dedico a la reparación y restauración de inmuebles',3,'2024-05-22 20:06:16','2024-05-22 20:06:16',6);
 /*!40000 ALTER TABLE `providers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,7 +139,14 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('Ana','Pera','Cerro Placeres, psj. Moreno, #0219','984324821','anap00','00#angora',1,'2024-05-06 01:45:47','2024-05-06 01:45:47'),('Emiliano','Salido','Viña Centro, Av. Libertad 3421','975671290','Emiano','emioneword69',2,'2024-05-06 02:30:54','2024-05-06 02:30:54'),('Carlos','Meneses','Playa Salinas, #1245','945234124','carlman','carls1245',3,'2024-05-13 04:11:08','2024-05-13 04:11:08'),('pedro','Piedra','Cerro Placeres, psj. Moreno, #0219','984324822','pepe00','pepo01',4,'2024-05-15 16:55:49','2024-05-15 16:55:49'),('Jaime','Nuñez','Plaza Victoria, Av. Sur, #1617','983324192','jaimeLoca','jan2000',5,'2024-05-22 17:46:21','2024-05-22 17:46:21'),('Jose','Molina','Puerto, Av. Errázuriz, #0357','998527612','josemol','molinaj23',6,'2024-05-22 20:04:40','2024-05-22 20:04:40'),('Marcos','Ponce','Francia, Av. Errázuriz, #6357','928727612','marcoco','maraco23',7,'2024-05-22 20:10:41','2024-05-22 20:10:41');
+INSERT INTO `users` VALUES 
+('Ana','Pera','Cerro Placeres, psj. Moreno, #0219','984324821','anap00','00#angora',1,'2024-05-06 01:45:47','2024-05-06 01:45:47'),
+('Emiliano','Salido','Viña Centro, Av. Libertad 3421','975671290','Emiano','emioneword69',2,'2024-05-06 02:30:54','2024-05-06 02:30:54'),
+('Carlos','Meneses','Playa Salinas, #1245','945234124','carlman','carls1245',3,'2024-05-13 04:11:08','2024-05-13 04:11:08'),
+('Pedro','Piedra','Cerro Placeres, psj. Moreno, #0219','984324822','pepe00','pepo01',4,'2024-05-15 16:55:49','2024-05-15 16:55:49'),
+('Jaime','Nuñez','Plaza Victoria, Av. Sur, #1617','983324192','jaimeLoca','jan2000',5,'2024-05-22 17:46:21','2024-05-22 17:46:21'),
+('Jose','Molina','Puerto, Av. Errázuriz, #0357','998527612','josemol','molinaj23',6,'2024-05-22 20:04:40','2024-05-22 20:04:40'),
+('Marcos','Ponce','Francia, Av. Errázuriz, #6357','928727612','marcoco','maraco23',7,'2024-05-22 20:10:41','2024-05-22 20:10:41');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -9,8 +9,9 @@ const Op         = db.Sequelize.Op;
 const create = (req, res) => 
 {
     // Validate query
-    if (!req.body.name_work || !req.body.description || !req.body.horary || !req.body.id_provider) {
-        res.status(400).send({ status: 400, message: "Each parameter of the body must not be empty!" });
+    const dataRequired = () => { return req.body.name_work && req.body.description && req.body.horary && req.body.id_provider; };
+    if (!dataRequired()) {
+        res.status(400).send({ okey: false, status: 400, message: "Each parameter of the body must not be empty!", data: {} });
         return;
     }
     // Create a experience
@@ -24,10 +25,10 @@ const create = (req, res) =>
     // Store in database
     Experience.create(experience) // Okay? then return the data
     .then(data => {
-        res.status(201).send({ status: 201, message: "Created experience", data: data });
+        res.status(201).send({ okey: true, status: 201, message: "Created experience", data: data });
     })
     .catch(err => {     // error 500: 
-        res.status(500).send({ status: 500, message: err.message || "Error creating a experience"});
+        res.status(500).send({ okey: false, status: 500, message: err.message + ". Error creating a experience", data: {}});
     });
 };
 
@@ -43,20 +44,20 @@ const findAll = (req, res) =>
         include: [{
             model: db.provider,
             as: 'experienceProvider',
-            attributes: { exclude: ["overview", "id_provider", "id_user", "updatedAt"] },
+            attributes: { exclude: ["overview", "id_provider", "id_client", "updatedAt"] },
             include: [{
-                model: db.user,
-                as: 'providerUser',
-                attributes: { exclude: ["address", "alias", "password", "id_user", "createdAt", "updatedAt"] }
+                model: db.client,
+                as: 'providerClient',
+                attributes: { exclude: ["address", "email", "password", "id_client", "typeClient", "createdAt", "updatedAt"] }
             }]
         }]
     })
     .then(data => {
-        if (data.length) res.status(200).send({ status: 200, message: "Providers with '" + work + "' experience found",        data: data });
-        else             res.status(200).send({ status: 200, message: "There are no providers with '" + work + "' experience", data: []   });
+        if (data.length) res.status(200).send({ okey: true, status: 200, message: "Providers with '" + work + "' experience found",        data: data });
+        else             res.status(200).send({ okey: true, status: 200, message: "There are no providers with '" + work + "' experience", data: []   });
     })
     .catch(err => {
-        res.status(500).send({ status: 500, message: err.message || "Search providers with '" + work + "' experience error"});
+        res.status(500).send({ okey: false, status: 500, message: err.message + ". Search providers with '" + work + "' experience error", data: [] });
     });
 };
 
@@ -70,13 +71,13 @@ const findAllByProvider = (req, res) =>
         where: condition
     })
     .then(data => {
-        if (data.length) res.status(200).send({ status: 200, message: "Experiences found", data: data }); // Does the data exist? deliver the data
-        else             res.status(404).send({ status: 404, message: "Experiences not found" });
+        if (data.length) res.status(200).send({ okey: true,  status: 200, message: "Experiences found",     data: data }); // Does the data exist? deliver the data
+        else             res.status(404).send({ okey: false, status: 404, message: "Experiences not found", data: {} });
     })
     .catch(err => {
-        res.status(500).send({ status: 500, message: err.message || "Search experiences error"});
+        res.status(500).send({ okey: false, status: 500, message: err.message + ". Search experiences error", data: {}});
     });
-}
+};
 
 
 export { create, findAll, findAllByProvider };
