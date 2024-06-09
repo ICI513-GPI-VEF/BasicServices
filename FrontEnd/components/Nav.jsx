@@ -25,7 +25,7 @@ export default function Navbar(){
         <Link className='navLink' href="/contact">Contacto</Link>
       </div>
       <div className='flex gap-6'>
-        <Link className='navLink text-ml sm:text-base' href="/account">Cuenta</Link>
+        <Link className='navLink text-ml sm:text-base' href="/account/login">Cuenta</Link>
         <div className='md:hidden flex items-center'>
           <FontAwesomeIcon onClick={()=>setOpen(!open)} icon={faBars} size='xl'/>
         </div>

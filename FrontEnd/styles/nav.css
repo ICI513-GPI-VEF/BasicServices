@@ -4,11 +4,11 @@
 @import 'tailwindcss/utilities';
 
 .navLink {
-  @apply hover:bg-gray-200 py-2 px-4 rounded border-b-2 border-white tracking-wide uppercase;
+  @apply py-2 px-4 rounded border-b-2 border-white tracking-wide uppercase transition transform;
 }
 
 .navLink:hover {
-  @apply border-black;
+  @apply border-black bg-gray-200 scale-110;
 }
 
 .navDrop {
