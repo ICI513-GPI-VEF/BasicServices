@@ -23,14 +23,19 @@ DROP TABLE IF EXISTS `clients`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `clients` (
+  `name` varchar(20) NOT NULL,
+  `last_name` varchar(20) NOT NULL,
+  `address` varchar(40) NOT NULL,
+  `contact` varchar(30) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(16) NOT NULL,
   `id_client` int NOT NULL AUTO_INCREMENT,
+  `typeClient` int DEFAULT '1',
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
-  `id_user` int NOT NULL,
   PRIMARY KEY (`id_client`),
-  UNIQUE KEY `id_user` (`id_user`),
-  CONSTRAINT `clients_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `clients_email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +44,7 @@ CREATE TABLE `clients` (
 
 LOCK TABLES `clients` WRITE;
 /*!40000 ALTER TABLE `clients` DISABLE KEYS */;
-INSERT INTO `clients` VALUES (1,'2024-05-06 01:48:26','2024-05-06 01:48:26',1),(2,'2024-05-15 21:23:58','2024-05-15 21:23:58',4),(3,'2024-05-22 17:52:30','2024-05-22 17:52:30',5),(4,'2024-05-22 20:10:51','2024-05-22 20:10:51',7);
+INSERT INTO `clients` VALUES ('Ana','Pera','Cerro Placeres, psj. Moreno, #0219','984324821','ana.pera@gmail.com','ana2000',1,1,'2024-06-06 22:22:07','2024-06-06 22:22:07'),('Emiliano','Salgado','Viña Centro, Av. Libertad 3421','975671290','emilian.sal@gmail.com','emil2000',2,1,'2024-06-06 22:23:46','2024-06-06 22:23:46'),('Carlos','Meneses','Playa Salinas, #1245','945234124','carlosmen@gmail.com','carlos2000',3,2,'2024-06-06 22:25:35','2024-06-06 22:25:35'),('Pedro','Piedra','Plaza Victoria, Av. Sur, #1617','983324192','pedro.pie@gmail.com','pedro2000',4,1,'2024-06-06 22:26:55','2024-06-06 22:26:55'),('Jaime','Nuñez','Plaza Victoria, Av. Sur, #1617','+56987125289','jaime.nun@gmail.com','jaime2000',5,1,'2024-06-06 22:28:16','2024-06-11 16:41:40'),('Jose','Molina','Puerto, Av. Errázuriz, #0357','998527612','jose.mol@gmail.com','jose2000',6,2,'2024-06-06 22:29:09','2024-06-06 22:29:09'),('Marcos','Ponce','Francia, Av. Errázuriz, #6357','928727612','marcos.ponce@gmail.com','marcos2000',7,2,'2024-06-06 22:30:11','2024-06-06 22:31:29');
 /*!40000 ALTER TABLE `clients` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,7 +59,7 @@ CREATE TABLE `experiences` (
   `name_work` varchar(20) NOT NULL,
   `description` varchar(300) NOT NULL,
   `horary` varchar(60) NOT NULL,
-  `qualification` int unsigned DEFAULT '0',
+  `avg_qualification` int unsigned DEFAULT '0',
   `id_experience` int NOT NULL AUTO_INCREMENT,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
@@ -71,12 +76,42 @@ CREATE TABLE `experiences` (
 
 LOCK TABLES `experiences` WRITE;
 /*!40000 ALTER TABLE `experiences` DISABLE KEYS */;
-INSERT INTO `experiences` VALUES 
-('gasfiter','Mantención y limpieza de tuberías','Lunes y jueves 10:00 pm - 19:00',0,1,'2024-05-25 04:45:09','2024-05-25 04:45:09',1),
-('gasfiter','Arreglos fugas de gas, fugas de agua, limpieza de calefont, mantenciones.','Todos los dias excepto fines de semana, 14:00 pm - 20:00',0,2,'2024-05-25 04:57:12','2024-05-25 04:57:12',2),
-('Albañil','Reparación de cimientos, levantamiento de muros, techos, losas, dalas.','Martes a viernes, 8:00 am - 18:00 pm',0,3,'2024-05-25 05:24:31','2024-05-25 05:24:31',3),
-('Gasfiter','Instalación y reparación de accesorios del sistema de agua o desagüe','Jueves y Domingos, 8:00 am - 20:00 pm',0,4,'2024-05-25 05:37:34','2024-05-25 05:37:34',3);
+INSERT INTO `experiences` VALUES ('Gasfiter','Instalación y reparación de accesorios del sistema de agua o desagüe','Jueves y Domingos, 8:00 am - 20:00 pm',10,1,'2024-06-07 02:20:10','2024-06-11 17:06:49',2),('Gasfiter','Mantención y limpieza de tuberías','Lunes y jueves 10:00 pm - 19:00 pm',5,2,'2024-06-07 22:11:48','2024-06-11 16:09:40',1),('Albañil','Reparación de cimientos, levantamiento de muros, techos, losas, dalas','Martes a viernes, 8:00 am - 18:00 pm',8,3,'2024-06-08 03:59:45','2024-06-11 04:00:14',3),('Gásfiter','Arreglos fugas de gas, fugas de agua, limpieza de calefont, mantenciones','Todos los dias 14:00 pm - 20:00 excepto fine de semana',0,4,'2024-06-08 04:01:16','2024-06-08 04:01:16',3);
 /*!40000 ALTER TABLE `experiences` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `opinions`
+--
+
+DROP TABLE IF EXISTS `opinions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `opinions` (
+  `comment` varchar(500) DEFAULT NULL,
+  `qualification` int unsigned NOT NULL,
+  `likes` int unsigned DEFAULT '0',
+  `id_opinion` int NOT NULL AUTO_INCREMENT,
+  `createdAt` datetime NOT NULL,
+  `updatedAt` datetime NOT NULL,
+  `id_client` int NOT NULL,
+  `id_experience` int NOT NULL,
+  PRIMARY KEY (`id_opinion`),
+  KEY `id_client` (`id_client`),
+  KEY `id_experience` (`id_experience`),
+  CONSTRAINT `opinions_ibfk_787` FOREIGN KEY (`id_client`) REFERENCES `clients` (`id_client`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `opinions_ibfk_788` FOREIGN KEY (`id_experience`) REFERENCES `experiences` (`id_experience`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `opinions`
+--
+
+LOCK TABLES `opinions` WRITE;
+/*!40000 ALTER TABLE `opinions` DISABLE KEYS */;
+INSERT INTO `opinions` VALUES ('Buen servicio, el techo quedo extraordinario.',10,0,1,'2024-06-08 04:11:58','2024-06-08 04:11:58',3,3),('El muro quedó en buen estado, aunque enuecntro que no quedó con la firmeza suficiente. De todas formas, agradecido.',8,0,3,'2024-06-11 03:46:52','2024-06-11 03:46:52',1,3),(NULL,7,0,4,'2024-06-11 04:00:14','2024-06-11 04:00:14',2,3),('AhÍ nma la limpieza, al los 2 dias despues se tapo de nuevo',5,0,5,'2024-06-11 16:09:40','2024-06-11 16:09:40',4,2),('La instalación del lavamanos quedó estupenda. Gracias',10,0,6,'2024-06-11 17:06:49','2024-06-11 17:06:49',1,1);
+/*!40000 ALTER TABLE `opinions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -91,10 +126,10 @@ CREATE TABLE `providers` (
   `id_provider` int NOT NULL AUTO_INCREMENT,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
-  `id_user` int NOT NULL,
+  `id_client` int NOT NULL,
   PRIMARY KEY (`id_provider`),
-  UNIQUE KEY `id_user` (`id_user`),
-  CONSTRAINT `providers_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE
+  UNIQUE KEY `id_client` (`id_client`),
+  CONSTRAINT `providers_ibfk_1` FOREIGN KEY (`id_client`) REFERENCES `clients` (`id_client`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -104,50 +139,8 @@ CREATE TABLE `providers` (
 
 LOCK TABLES `providers` WRITE;
 /*!40000 ALTER TABLE `providers` DISABLE KEYS */;
-INSERT INTO `providers` VALUES 
-('Me dedico a la mantención y limpieza de tuberías',1,'2024-05-06 02:34:47','2024-05-06 02:34:47',2),
-('Me dedico a la gafitería',2,'2024-05-13 04:13:17','2024-05-13 04:13:17',3),
-('Me dedico a la reparación y restauración de inmuebles',3,'2024-05-22 20:06:16','2024-05-22 20:06:16',6);
+INSERT INTO `providers` VALUES ('Me dedico a la mantención y limpieza de tuberías',1,'2024-06-06 22:25:35','2024-06-06 22:25:35',3),('Me dedico a la gafitería',2,'2024-06-06 22:29:09','2024-06-06 22:29:09',6),('Me dedico a la reparación y restauración de inmuebles',3,'2024-06-06 22:31:29','2024-06-06 22:31:29',7);
 /*!40000 ALTER TABLE `providers` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
-  `name` varchar(20) NOT NULL,
-  `last_name` varchar(20) NOT NULL,
-  `address` varchar(40) NOT NULL,
-  `contact` varchar(30) NOT NULL,
-  `alias` varchar(10) NOT NULL,
-  `password` varchar(16) NOT NULL,
-  `id_user` int NOT NULL AUTO_INCREMENT,
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id_user`),
-  UNIQUE KEY `users_alias` (`alias`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES 
-('Ana','Pera','Cerro Placeres, psj. Moreno, #0219','984324821','anap00','00#angora',1,'2024-05-06 01:45:47','2024-05-06 01:45:47'),
-('Emiliano','Salido','Viña Centro, Av. Libertad 3421','975671290','Emiano','emioneword69',2,'2024-05-06 02:30:54','2024-05-06 02:30:54'),
-('Carlos','Meneses','Playa Salinas, #1245','945234124','carlman','carls1245',3,'2024-05-13 04:11:08','2024-05-13 04:11:08'),
-('Pedro','Piedra','Cerro Placeres, psj. Moreno, #0219','984324822','pepe00','pepo01',4,'2024-05-15 16:55:49','2024-05-15 16:55:49'),
-('Jaime','Nuñez','Plaza Victoria, Av. Sur, #1617','983324192','jaimeLoca','jan2000',5,'2024-05-22 17:46:21','2024-05-22 17:46:21'),
-('Jose','Molina','Puerto, Av. Errázuriz, #0357','998527612','josemol','molinaj23',6,'2024-05-22 20:04:40','2024-05-22 20:04:40'),
-('Marcos','Ponce','Francia, Av. Errázuriz, #6357','928727612','marcoco','maraco23',7,'2024-05-22 20:10:41','2024-05-22 20:10:41');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -159,4 +152,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-26 22:36:38
+-- Dump completed on 2024-06-11 13:24:26

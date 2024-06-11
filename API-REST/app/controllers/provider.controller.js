@@ -18,12 +18,12 @@ async function createProvider(body)
 // Check available params
     const dataRequired = () => { return body.overview && body.id_client && body.typeClient; };
     if (!dataRequired())
-        return {okey: false, status: 400, message: "Create provider: Each parameter of the body must not be empty!", data: {} };
+        return {okey: false, status: 400, message: "Create provider: Each parameter of the body must not be empty!. ", data: {} };
 
 // Check existing provider
     var response = await findExistingProvider(body.id_client);
     if (response.okey)
-        return { okey: false, status: 409, message: "Conlict: existing provider", data: {} };
+        return { okey: false, status: 409, message: "Conlict: existing provider. ", data: {} };
     else if (response.status == 500)
         return { okey: response.okey, status: response.status, message: response.message, data: response.data };
 
@@ -43,10 +43,10 @@ async function createProvider(body)
 // Store in database
     await Provider.create(provider) // Okay? then return the data
     .then(data => {
-        response = { okey: true, status: 201, message: "Created provider client", data: data }
+        response = { okey: true, status: 201, message: "Created provider client. ", data: data }
     })
     .catch(err => {     // error 500: 
-        response = { okey: false, status: 500, message: err.message + ". Error creating a provider client", data: {} };
+        response = { okey: false, status: 500, message: err.message + ". Error creating a provider client. ", data: {} };
     });
 
     return response;
@@ -61,11 +61,11 @@ async function findExistingProvider(id_client)
         where: { id_client: {[Op.eq]: id_client} }
     })
     .then(data => {
-        if (data)   response = { okey: true,  status: 200, message: "Provider found",     data: {} };
-        else        response = { okey: false, status: 200, message: "Provider not found", data: {} };
+        if (data)   response = { okey: true,  status: 200, message: "Provider found. ",     data: {} };
+        else        response = { okey: false, status: 200, message: "Provider not found. ", data: {} };
     })
     .catch(err => {
-        response = { okey: false, status: 500, message: err.message + ". Search provider error", data: {} };
+        response = { okey: false, status: 500, message: err.message + ". Search provider error. ", data: {} };
     });
 
     return response;
@@ -88,17 +88,17 @@ async function findAll(req, res)
         }]
     })
     .then(data => {
-        if (data.length) res.status(200).send({ okey: true, status: 200, message: "Providers found",         data: data });
-        else             res.status(200).send({ okey: true, status: 200, message: "There are no providers",  data: []   });
+        if (data.length) res.status(200).send({ okey: true, status: 200, message: "Providers found. ",         data: data });
+        else             res.status(200).send({ okey: true, status: 200, message: "There are no providers. ",  data: []   });
     })
     .catch(err => {
-        res.status(500).send({ okey: false, status: 500, message: err.message + ". Search providers error", data: [] });
+        res.status(500).send({ okey: false, status: 500, message: err.message + ". Search providers error. ", data: [] });
     });
 }
 
 
 // Search provider by fk
-async function findOne(req, res)
+async function findByClient(req, res)
 {
     const id_client = req.params.id_client;
     var condition   = { id_client: {[Op.eq]: id_client} };
@@ -109,15 +109,15 @@ async function findOne(req, res)
         include: [{
             model: db.experience,
             as: 'providerExperiences',
-            attributes: { exclude: ["id_provider", "id_experience", "createdAt", "updatedAt"] }
+            attributes: { exclude: ["id_provider", "createdAt", "updatedAt"] }
         }]
     })
     .then(data => {
-        if (data) res.status(200).send({ okey: true,  status: 200, message: "Provider found",     data: data }); // Does the data exist? deliver the data
-        else      res.status(404).send({ okey: false, status: 404, message: "Provider not found", data: {} });
+        if (data) res.status(200).send({ okey: true,  status: 200, message: "Provider found. ",     data: data }); // Does the data exist? deliver the data
+        else      res.status(404).send({ okey: false, status: 404, message: "Provider not found. ", data: {} });
     })
     .catch(err => {
-        res.status(500).send({ okey: false, status: 500, message: err.message + ". Search provider error", data: {} });
+        res.status(500).send({ okey: false, status: 500, message: err.message + ". Search provider error. ", data: {} });
     });
 }
 
@@ -165,4 +165,4 @@ async function findOne(req, res)
 //    
 //};
 
-export { create, createProvider, findAll, findOne};
+export { create, createProvider, findAll, findByClient};

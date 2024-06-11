@@ -15,13 +15,13 @@ async function create(req, res)
                 req.body.contact && req.body.email     && req.body.password && req.body.typeClient);
     };
     if (!dataRequired()) {
-        res.status(400).send({ okey: false, status: 400, message: "Create client: Each parameter of the body must not be empty!", data: {} });
+        res.status(400).send({ okey: false, status: 400, message: "Create client: Each parameter of the body must not be empty!. ", data: {} });
         return;
     }
 // If also create provider client (typeClient=1), check if overview param is not empty
     const isProviderWithoutOverview = () => { return req.body.typeClient == 2 && !req.body.overview; }
     if (isProviderWithoutOverview()){
-        res.status(400).send({ okey: false, status: 400, message: "Create provider client: 'overview' param of the body must not be empty!", data: {} });
+        res.status(400).send({ okey: false, status: 400, message: "Create provider client: 'overview' param of the body must not be empty!. ", data: {} });
         return;
     }
 
@@ -54,10 +54,10 @@ async function create(req, res)
                 res.status(response.status).send({ okey: response.okey, status: response.status, message: response.message + ". " + response2.message, data: response.data });
             }
         }
-        else res.status(201).send({ okey: true, status: 201, message: "Created client", data: data });
+        else res.status(201).send({ okey: true, status: 201, message: "Created client. ", data: data });
     })
     .catch(err => {     // Error 500: 
-        res.status(500).send({ okey: false, status: 500, message: err.message + ". Error creating a client"});
+        res.status(500).send({ okey: false, status: 500, message: err.message + ". Error creating a client. "});
     });
 }
 
@@ -80,11 +80,11 @@ async function findAll(req, res)
 
     Client.findAll({ where: condition, attributes:{ exclude:['password']} }) // Find the tuples that match the code
     .then(data => {
-        if (data.length) res.status(200).send({ okey: true, status: 200, message: "Clients found",        data: data });
-        else             res.status(200).send({ okey: true, status: 200, message: "There are no clients", data: []   });
+        if (data.length) res.status(200).send({ okey: true, status: 200, message: "Clients foun. ",        data: data });
+        else             res.status(200).send({ okey: true, status: 200, message: "There are no clients. ", data: []   });
     })
     .catch(err => {
-        res.status(500).send({ okey: false, status: 500, message: err.message + ". Search client error", data: [] });
+        res.status(500).send({ okey: false, status: 500, message: err.message + ". Search client error. ", data: [] });
     });
 }
 
@@ -95,7 +95,7 @@ async function findOne(req, res)
 
     // Verify all body params not empty
     if (!(email && password)) {
-        res.status(400).send({ okey: false, status: 400, message: "Each query param must be not empty!", data: {} });
+        res.status(400).send({ okey: false, status: 400, message: "Each query param must be not empty!. ", data: {} });
         return;
     }
 
@@ -106,11 +106,11 @@ async function findOne(req, res)
         where: condition
     })
     .then(data => {
-        if (data) res.status(200).send({ okey: true,  status: 200, message: "Client found",     data: data }); // Does the data exist? deliver the data
-        else      res.status(404).send({ okey: false, status: 404, message: "Client not found", data: {} });
+        if (data) res.status(200).send({ okey: true,  status: 200, message: "Client found. ",     data: data }); // Does the data exist? deliver the data
+        else      res.status(404).send({ okey: false, status: 404, message: "Client not found. ", data: {} });
     })
     .catch(err => {
-        res.status(500).send({ okey: false, status: 500, message: err.message + ". Search client error", data: {} });
+        res.status(500).send({ okey: false, status: 500, message: err.message + ". Search client error. ", data: {} });
     });
 }
 
@@ -118,8 +118,8 @@ async function findOne(req, res)
 // Update client by id
 async function update(req, res)
 {
-    const { updated, status, message, data } = await updateClient(req.params.id, req.body);
-    return res.status(status).send({ okey: updated, status: status, message: message, data: data });
+    const { okey, status, message, data } = await updateClient(req.params.id, req.body);
+    return res.status(status).send({ okey: okey, status: status, message: message, data: data });
 }
 
 async function updateClient(id, body)
@@ -128,16 +128,15 @@ async function updateClient(id, body)
 
     await Client.update(body, { where: {id_client: id} })
     .then(num => {
-        if (num == 1)   response = { okey: true,  status: 200, message: "Updated client",             data: num };
-        else            response = { okey: false, status: 404, message: "Client not found to update", data: num };
+        if (num == 1)   response = { okey: true,  status: 200, message: "Updated client. ",             data: num };
+        else            response = { okey: false, status: 404, message: "Client not found to update. ", data: num };
     })
     .catch(err => {
-        response = { okey: false, status: 500, message: err.message + ". Error updating client", data: 0 };
+        response = { okey: false, status: 500, message: err.message + ". Error updating client. ", data: 0 };
     });
 
     return response;
 }
-
 
 // Delete a client by id
 async function drop(req, res)
@@ -152,11 +151,11 @@ async function dropClient(id)
 
     await Client.destroy({ where: { id_client: id } })
     .then(num => {
-        if (num)    response = { okey: true,  status: 200, message: "Deleted client",             data: num };
-        else        response = { okey: false, status: 404, message: "Client not found to delete", data: num };
+        if (num)    response = { okey: true,  status: 200, message: "Deleted client. ",             data: num };
+        else        response = { okey: false, status: 404, message: "Client not found to delete. ", data: num };
     })
     .catch(err => {
-        response = { okey: false, status: 500, message: err.message + ". Error when deleting client", data: 0 };
+        response = { okey: false, status: 500, message: err.message + ". Error when deleting client. ", data: 0 };
     });
 
     return response;

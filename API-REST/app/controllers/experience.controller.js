@@ -11,7 +11,7 @@ const create = (req, res) =>
     // Validate query
     const dataRequired = () => { return req.body.name_work && req.body.description && req.body.horary && req.body.id_provider; };
     if (!dataRequired()) {
-        res.status(400).send({ okey: false, status: 400, message: "Each parameter of the body must not be empty!", data: {} });
+        res.status(400).send({ okey: false, status: 400, message: "Each parameter of the body must not be empty!. ", data: {} });
         return;
     }
     // Create a experience
@@ -25,10 +25,10 @@ const create = (req, res) =>
     // Store in database
     Experience.create(experience) // Okay? then return the data
     .then(data => {
-        res.status(201).send({ okey: true, status: 201, message: "Created experience", data: data });
+        res.status(201).send({ okey: true, status: 201, message: "Created experience. ", data: data });
     })
     .catch(err => {     // error 500: 
-        res.status(500).send({ okey: false, status: 500, message: err.message + ". Error creating a experience", data: {}});
+        res.status(500).send({ okey: false, status: 500, message: err.message + ". Error creating a experience. ", data: {}});
     });
 };
 
@@ -39,12 +39,12 @@ const findAll = (req, res) =>
     var condition = (work)? {  name_work: {[Op.like]: `%${work}%`}  } : null;
 
     Experience.findAll({
-        attributes: { exclude: ["id_provider", "id_experience", "createdAt", "updatedAt"] },
+        attributes: { exclude: ["id_provider", "createdAt", "updatedAt"] },
         where: condition,
         include: [{
             model: db.provider,
             as: 'experienceProvider',
-            attributes: { exclude: ["overview", "id_provider", "id_client", "updatedAt"] },
+            attributes: { exclude: ["overview", "id_client", "updatedAt"] },
             include: [{
                 model: db.client,
                 as: 'providerClient',
@@ -53,11 +53,11 @@ const findAll = (req, res) =>
         }]
     })
     .then(data => {
-        if (data.length) res.status(200).send({ okey: true, status: 200, message: "Providers with '" + work + "' experience found",        data: data });
-        else             res.status(200).send({ okey: true, status: 200, message: "There are no providers with '" + work + "' experience", data: []   });
+        if (data.length) res.status(200).send({ okey: true, status: 200, message: "Providers with '" + work + "' experience found. ",        data: data });
+        else             res.status(200).send({ okey: true, status: 200, message: "There are no providers with '" + work + "' experience. ", data: []   });
     })
     .catch(err => {
-        res.status(500).send({ okey: false, status: 500, message: err.message + ". Search providers with '" + work + "' experience error", data: [] });
+        res.status(500).send({ okey: false, status: 500, message: err.message + ". Search providers with '" + work + "' experience error. ", data: [] });
     });
 };
 
@@ -71,13 +71,37 @@ const findAllByProvider = (req, res) =>
         where: condition
     })
     .then(data => {
-        if (data.length) res.status(200).send({ okey: true,  status: 200, message: "Experiences found",     data: data }); // Does the data exist? deliver the data
-        else             res.status(404).send({ okey: false, status: 404, message: "Experiences not found", data: {} });
+        if (data.length) res.status(200).send({ okey: true,  status: 200, message: "Experiences found. ",     data: data }); // Does the data exist? deliver the data
+        else             res.status(404).send({ okey: false, status: 404, message: "Experiences not found. ", data: {} });
     })
     .catch(err => {
-        res.status(500).send({ okey: false, status: 500, message: err.message + ". Search experiences error", data: {}});
+        res.status(500).send({ okey: false, status: 500, message: err.message + ". Search experiences error. ", data: {}});
     });
 };
 
+// Update experience by id
+async function update(req, res)
+{
+    const { updated, status, message, data } = await updateExperience(req.params.id, req.body);
+    return res.status(status).send({ okey: updated, status: status, message: message, data: data });
+}
 
-export { create, findAll, findAllByProvider };
+async function updateExperience(id, body)
+{   
+    var response;
+
+    await Experience.update(body, { where: {id_experience: id} })
+    .then(num => {
+        if (num == 1)   response = { okey: true,  status: 200, message: "Updated experience. ",             data: num };
+        else            response = { okey: false, status: 404, message: "Experience not found to update. ", data: num };
+    })
+    .catch(err => {
+        response = { okey: false, status: 500, message: err.message + ". Error updating experience. ", data: 0 };
+    });
+
+    return response;
+}
+
+
+export { create, findAll, findAllByProvider, update, updateExperience };
+
