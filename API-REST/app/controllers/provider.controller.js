@@ -21,7 +21,7 @@ async function createProvider(body)
         return {okey: false, status: 400, message: "Create provider: Each parameter of the body must not be empty!. ", data: {} };
 
 // Check existing provider
-    var response = await findExistingProvider(body.id_client);
+    var response = await findProvider(body.id_client);
     if (response.okey)
         return { okey: false, status: 409, message: "Conlict: existing provider. ", data: {} };
     else if (response.status == 500)
@@ -45,27 +45,15 @@ async function createProvider(body)
     .then(data => {
         response = { okey: true, status: 201, message: "Created provider client. ", data: data }
     })
-    .catch(err => {     // error 500: 
+    .catch(async (err) => 
+    {
         response = { okey: false, status: 500, message: err.message + ". Error creating a provider client. ", data: {} };
-    });
-
-    return response;
-}
-
-// Know if there existing provider by id client
-async function findExistingProvider(id_client)
-{
-    var response;
-
-    await Provider.findOne({
-        where: { id_client: {[Op.eq]: id_client} }
-    })
-    .then(data => {
-        if (data)   response = { okey: true,  status: 200, message: "Provider found. ",     data: {} };
-        else        response = { okey: false, status: 200, message: "Provider not found. ", data: {} };
-    })
-    .catch(err => {
-        response = { okey: false, status: 500, message: err.message + ". Search provider error. ", data: {} };
+        if (body.typeClient == 1) // Cancel client update
+        {
+            resp = await updateClient(body.id_client, {typeClient: 1})
+            if (resp.okey)  response.message = err.message + ". Error creating a provider client. Anulated client update. ";
+            else            response.message = err.message + ". Error creating a provider client. Error restoring client.";
+        }
     });
 
     return response;
@@ -94,6 +82,25 @@ async function findAll(req, res)
     .catch(err => {
         res.status(500).send({ okey: false, status: 500, message: err.message + ". Search providers error. ", data: [] });
     });
+}
+
+// Know if there existing provider by id client
+async function findProvider(id_client)
+{
+    var response;
+
+    await Provider.findOne({
+        where: { id_client: {[Op.eq]: id_client} }
+    })
+    .then(data => {
+        if (data)   response = { okey: true,  status: 200, message: "Provider found. ",     data: {} };
+        else        response = { okey: false, status: 200, message: "Provider not found. ", data: {} };
+    })
+    .catch(err => {
+        response = { okey: false, status: 500, message: err.message + ". Search provider error. ", data: {} };
+    });
+
+    return response;
 }
 
 
