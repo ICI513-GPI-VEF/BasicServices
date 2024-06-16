@@ -53,7 +53,7 @@ export default function Featured(){
       <div className="flex justify-center space-x-4 mt-4 md:mt-8">
         <h1 className="text-ms my-auto md:text-lg lg:text-xl text-white">¿Deseas ofrecer tus servicios?</h1>
         <div className="w-32 md:w-48 h-10 md:h-12 bg-[#1CBC74] flex items-center justify-center rounded-lg">
-          <Link className="text-white w-full h-full flex items-center justify-center text-xs md:text-sm lg:text-ms" href="/account">Comienza aquí</Link>
+          <Link className="text-white w-full h-full flex items-center justify-center text-xs md:text-sm lg:text-ms" href="/account/singup">Comienza aquí</Link>
         </div>
       </div>
     </section>

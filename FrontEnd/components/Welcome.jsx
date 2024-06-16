@@ -2,14 +2,14 @@
 import Image from 'next/image';
 import Link from 'next/link'
 
-import img from '@/utils/fondo.webp'
+import img from '@/utils/bg-inicio.jpeg'
 /* import '@/styles/nav.css'; */
 
 export default function Welcome(){
   return (
     <>
     <div className="relative h-96 lg:h-600 flex items-center bg-cover bg-center" style={{ backgroundImage: `url(${img.src})`}}>
-      <div className="relative z-10 text-left" style={{ marginLeft: '8vw', width: '70%'}}>
+      <div className="relative z-2 text-left" style={{ marginLeft: '8vw', width: '70%'}}>
         <h1 className="text-xl md:text-2xl lg:text-4xl mb-4 font-bold">¡Haz tu vida más fácil!</h1>
         <h2 className="text-xs md:text-sm lg:text-xl mb-6">
           Conecta con los expertos que necesitas para una vida más fácil y simplificada.
