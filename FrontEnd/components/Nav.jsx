@@ -12,7 +12,7 @@ export default function Navbar(){
 
   return (
     <>
-    <div className="flex justify-around items-center py-2 h-24">
+    <div className="sticky top-0 z-10 flex justify-around items-center py-2 h-24 bg-white">
       <div className='flex items-center space-x-2'>
         {/* <FontAwesomeIcon icon={faCross} size='xl'/> */}
         <FontAwesomeIcon icon={faHouseCircleCheck} size='xl'/>
