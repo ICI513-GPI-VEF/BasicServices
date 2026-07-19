@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.3.0, for macos14.2 (arm64)
+-- MySQL dump 10.13  Distrib 8.4.10, for macos15.7 (arm64)
 --
 -- Host: localhost    Database: basicServices
 -- ------------------------------------------------------
--- Server version	8.3.0
+-- Server version	8.4.10
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -99,8 +99,8 @@ CREATE TABLE `opinions` (
   PRIMARY KEY (`id_opinion`),
   KEY `id_client` (`id_client`),
   KEY `id_experience` (`id_experience`),
-  CONSTRAINT `opinions_ibfk_787` FOREIGN KEY (`id_client`) REFERENCES `clients` (`id_client`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `opinions_ibfk_788` FOREIGN KEY (`id_experience`) REFERENCES `experiences` (`id_experience`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `opinions_ibfk_791` FOREIGN KEY (`id_client`) REFERENCES `clients` (`id_client`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `opinions_ibfk_792` FOREIGN KEY (`id_experience`) REFERENCES `experiences` (`id_experience`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -142,6 +142,14 @@ LOCK TABLES `providers` WRITE;
 INSERT INTO `providers` VALUES ('Me dedico a la mantención y limpieza de tuberías',1,'2024-06-06 22:25:35','2024-06-06 22:25:35',3),('Me dedico a la gafitería',2,'2024-06-06 22:29:09','2024-06-06 22:29:09',6),('Me dedico a la reparación y restauración de inmuebles',3,'2024-06-06 22:31:29','2024-06-06 22:31:29',7);
 /*!40000 ALTER TABLE `providers` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'basicServices'
+--
+
+--
+-- Dumping routines for database 'basicServices'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -152,4 +160,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-11 13:24:26
+-- Dump completed on 2026-07-18 22:00:05
